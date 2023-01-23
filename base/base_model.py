@@ -4,7 +4,7 @@ import time
 from pywinauto import application
 
 class BaseModel():
-    def __init__(self, id = 'ID', pwd = 'PW=', pwdcert = 'PWDCERT'):
+    def __init__(self, id = 'ID', pwd = 'PW', pwdcert = 'PWDCERT'):
         # log in CREON
         self.id = id
         self.pwd = pwd

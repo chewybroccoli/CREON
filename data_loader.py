@@ -45,7 +45,7 @@ class DataLoader(BaseModel):
                 buy.append(objStockChart.GetDataValue(5, i))
                 sell.append(objStockChart.GetDataValue(6, i))
             stacked += samp
-            print(f'total {stacked} ticks been requested')
+            print(f'{stacked} ticks been requested')
             #self._wait()
 
         df = self._transform_df([date, time, price, vol, tran, buy, sell], code)
@@ -94,17 +94,17 @@ class DataLoader(BaseModel):
         df.code = code
         return df
 
-    def _store_data(self, data, type):  # type 0: stock, 1: index_future
+    def _store_data(self, data, type, pw = sql_pw):  # type 0: stock, 1: index_future
         if type == 0:
             name = self.g_objCodeMgr.CodeToName(data.code)
-            db = 'mysql+pymysql://root:Sanghunkim25!@127.0.0.1:3306/stocks'
+            db = f'mysql+pymysql://root:{pw}@127.0.0.1:3306/stocks'
             db_conn = create_engine(db, encoding='utf-8')
             conn = db_conn.connect()
             data.to_sql(name=name, con=db_conn, if_exists='append', index=False)
             conn.close()
             print("Saved the stock sussessfully!")
         else:
-            db = 'mysql+pymysql://root:Sanghunkim25!@127.0.0.1:3306/futures'
+            db = f'mysql+pymysql://root:{pw}@127.0.0.1:3306/futures'
             db_conn = create_engine(db, encoding='utf-8')
             conn = db_conn.connect()
             data.to_sql(name='future', con=db_conn, if_exists='append', index=False)
